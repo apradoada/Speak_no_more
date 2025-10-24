@@ -3,6 +3,7 @@ from .medical_records import records
 import random
 import os
 import time
+from google import genai
 
 def input_dict():
     user_input = input()
@@ -49,19 +50,36 @@ def comms():
     type_text("\nCONNECTION SECURED. PLEASE ENTER MESSAGE:\n")
 
     user_input = input()
+    message = ""
 
-    while user_input != "ROGER" and user_input != "MAYDAY":
+    while user_input != "MAYDAY" and user_input != "OVER":
+        message += f" {user_input}"
         user_input = input()
     
-    if user_input == "ROGER":
-        type_text("\nMESSAGE SENT TO HQ. STAND BY FOR REPLY\n")
-    elif user_input == "MAYDAY":
+        if user_input == "ROGER":
+            type_text("\nMESSAGE SENT TO HQ. STAND BY FOR REPLY\n")
+            pingGemini(message)
+            message = ""
+
+    pingGemini(message)
+
+    if user_input == "MAYDAY":
         for i in range(10):
             type_text("MESSAGE SENDING...")
-        type_text("\nCONNECTION TO HQ LOST\n")
+        type_text("\nCONNECTION TO HQ LOST\n") 
     
     input_dict()
 
+
+def pingGemini(message):
+    client = genai.Client(api_key="AIzaSyDBMGM-YBEcQ52VWyKz_W1hLPpOF_7S5jw")
+
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents= f"You're a mission control expert who receives the following message from a remote base. Reply with a simple yet appropriate response. Message: '{message}'"
+    )
+
+    type_text(response.text.upper())
 def panic(delay_seconds=0.1):
     """
     Outputs a continuous stream of random 1s and 0s to the console.
@@ -123,7 +141,7 @@ def check_android_status():
     for i in range(10):
         type_text("ASSESSING ANDROID...")
 
-    type_text(f"\nANDROID STATUS: {android_status_list[random.randint(0, 99)]}\n")A
+    type_text(f"\nANDROID STATUS: {android_status_list[random.randint(0, 99)]}\n")
 
     input_dict()
 
