@@ -1,5 +1,6 @@
 from .helpers import type_text
 from .medical_records import records
+from .captains_log import captains_log
 import random
 import os
 import time
@@ -36,8 +37,19 @@ def run_diagnostics():
 def admin():
     os.system("clear")
     type_text("\nENTER PASSWORD TO ACCESS ADMIN:\n")
-    input()
-    type_text("ACCESS DENIED")
+    user_input = input()
+    counter = 0
+
+    while user_input != "1nd3p3nd3nc3c0rp" and counter < 5:
+        type_text("ACCESS DENIED PLEASE TRY AGAIN")
+        user_input = input()
+    
+    if user_input == "1nd3p3nd3nc3c0rp":
+        for message in captains_log:
+            type_text(f"\n{message}\n")
+            
+    else:
+        type_text("TOO MANY ATTEMPTS")
 
     input_dict()
 
