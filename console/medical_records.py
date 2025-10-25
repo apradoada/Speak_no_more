@@ -49,7 +49,7 @@ records = {
         "AGE": "22",
         "STATUS": f"{STATUSES[random.randint(0, len(STATUSES)-1)]}",
         "MEDICAL HISTORY": "Tension headaches, Mild joint pain",
-         "ALLERGIES": "Gluten"
+        "ALLERGIES": "Gluten"
     },
     "COMPASS" : {
         "NAME": "T. Jitkoff",
